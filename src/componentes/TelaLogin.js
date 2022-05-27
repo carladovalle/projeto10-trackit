@@ -68,7 +68,7 @@ const Tela = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    background-color: red;
+    background-color: #F2F2F2;
     height: 667px;
 `;
 
