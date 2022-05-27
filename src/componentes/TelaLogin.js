@@ -13,6 +13,7 @@ export default function TelaLogin({setToken}) {
     const navigate = useNavigate();
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const [isDisabled, setIsDisabled] = useState(false);
 
     function erroLogin(erro) {
         alert("Erro")
@@ -28,6 +29,7 @@ export default function TelaLogin({setToken}) {
             email,
             password,
         }
+        setIsDisabled(true);
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body);
         promise
             .then(resposta => {
@@ -36,19 +38,24 @@ export default function TelaLogin({setToken}) {
             })
             .catch(erro => {
                 erroLogin(erro)
+                setIsDisabled(false)
             });
     }
 
     return (
+
         <Tela>
-                <ThreeDots color="rgba(255, 255, 255, 1)" height={13} width={51} />
                 <Img src={ImagemLogo} />
                 <form onSubmit={logar}>
                     <Dados>
-                        <Input type="email" placeholder="email" value={email} onChange={e => setEmail(e.target.value)} required />
-                        <Input type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                        <Input type="email" disabled={isDisabled} placeholder="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                        <Input type="password" disabled={isDisabled} placeholder="senha" value={password} onChange={e => setPassword(e.target.value)} required />
                     </Dados>
-                    <Button type="submit">Entrar</Button>
+                    <Button type="submit" disabled={isDisabled}>
+                        {isDisabled
+                            ? <ThreeDots color="rgba(255, 255, 255, 1)" height={13} width={51} />
+                            : "Entrar"}
+                    </Button>
                 </form>
                 <Link to={"/cadastro"}>
                     <IrParaCadastro>Não tem uma conta? Cadastre-se!</IrParaCadastro>
@@ -83,7 +90,7 @@ const Input = styled.input`
     border: 1px solid #D4D4D4;
     border-radius: 5px;
 
-    &:placeholder {
+    &::placeholder {
         color: #DBDBDB;
         font-size: 19.98px;
         font-weight: 400;
