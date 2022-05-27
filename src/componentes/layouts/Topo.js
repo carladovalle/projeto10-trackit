@@ -1,9 +1,16 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
 
+import UserContext from "../../contexts/UserContext";
+
 export default function Topo() {
+
+    const { imagemUsuario } = useContext(UserContext);
+
     return (
         <Tela>
             <h1>Trackit</h1>
+            <ImagemUsuario src={imagemUsuario}></ImagemUsuario>
         </Tela>
     )
 }
@@ -25,4 +32,9 @@ const Tela = styled.div`
         font-weight: 400;
         font-family: 'Playball', cursive;
     }
+`
+const ImagemUsuario = styled.img`
+    width: 51px;
+    height: 51px;
+    border-radius: 98.5px;
 `

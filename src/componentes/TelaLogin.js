@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { ThreeDots } from  'react-loader-spinner';
+
+import UserContext from "../contexts/UserContext";
 
 import ImagemLogo from "./../assets/imagens/logo.svg";
 
@@ -14,6 +16,7 @@ export default function TelaLogin({setToken}) {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [isDisabled, setIsDisabled] = useState(false);
+    const { setImagemUsuarioLocal } = useContext(UserContext);
 
     function erroLogin(erro) {
         alert("Erro")
@@ -21,6 +24,7 @@ export default function TelaLogin({setToken}) {
 
     function sucessoLogin(resposta) {
         navigate("/habitos")
+        setImagemUsuarioLocal(resposta.data.image)
     }
 
     function logar (event) {
