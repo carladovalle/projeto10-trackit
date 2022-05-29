@@ -19,12 +19,12 @@ export default function Menu() {
 
 const BarraMenu = styled.div`
     background-color: #FFFFFF;
-    background-color: red;
     width: 375px;
     height: 70px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    position: fixed;
 
     h1 {
         color: #52B6FF;
@@ -35,6 +35,7 @@ const BarraMenu = styled.div`
 
     h2 {
         color: #FFFFFF;
+        color: #52B6FF;
         font-size: 17.98px;
         font-weight: 400;
     }

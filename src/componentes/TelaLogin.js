@@ -7,16 +7,18 @@ import { Link } from 'react-router-dom';
 import { ThreeDots } from  'react-loader-spinner';
 
 import UserContext from "../contexts/UserContext";
+import TokenContext from "../contexts/TokenContext";
 
 import ImagemLogo from "./../assets/imagens/logo.svg";
 
-export default function TelaLogin({setToken}) {
+export default function TelaLogin() {
 
     const navigate = useNavigate();
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [isDisabled, setIsDisabled] = useState(false);
     const { setImagemUsuarioLocal } = useContext(UserContext);
+    const { token, setToken } = useContext(TokenContext);
 
     function erroLogin(erro) {
         alert("Erro")
@@ -38,6 +40,7 @@ export default function TelaLogin({setToken}) {
         promise
             .then(resposta => {
                 setToken(resposta.data.token)
+                console.log(resposta.data.token)
                 sucessoLogin(resposta)
             })
             .catch(erro => {
@@ -109,6 +112,9 @@ const Button = styled.button`
     font-size: 20.98px;
     font-weight: 400;
     color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 const IrParaCadastro = styled.div`
     font-size: 13.98px;
