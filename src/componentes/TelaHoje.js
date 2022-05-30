@@ -59,28 +59,30 @@ export default function TelaHoje() {
                 <DiaHoje>
                     <h1>{dayjs().locale('pt-br').format('dddd, DD/MM')}</h1>
                 </DiaHoje>
-                <Subtitulo>
-                    <h2>Nenhum hábito concluído ainda</h2>
-                </Subtitulo>
-                {habitosHoje.map(habito =>
-                <Habito
-                    key={habito.id}
-                    feito={habito.done}
-                    recorde={habito.highestSequence === habito.currentSequence && habito.done && habito.highestSequence !== 0}
-                    >
-                    <Dados>
-                        <h3>{habito.name}</h3>
-                        <Informaçoes>
-                            <h4>Sequencia atual: {habito.currentSequence}</h4>
-                            <h4>Seu recorde: {habito.highestSequence}</h4>
-                        </Informaçoes>
-                    </Dados>
-                    <Check
+                <>
+                    <Subtitulo porcentagem={porcentagem}>
+                    {(porcentagem) === 0 ? <h2>Nenhum hábito concluído ainda</h2> : <h2>{Math.floor(porcentagem)}% dos hábitos concluídos</h2>}
+                    </Subtitulo>
+                    {habitosHoje.map(habito =>
+                    <Habito
+                        key={habito.id}
                         feito={habito.done}
-                        onClick={() => clicarHabito(habito.done,habito.id)}>
-                            <img src={ImagemCheck} className="imagemCheck" />
-                    </Check>
-                </Habito>)}
+                        recorde={habito.highestSequence === habito.currentSequence && habito.done && habito.highestSequence !== 0}
+                        >
+                        <Dados>
+                            <h3>{habito.name}</h3>
+                            <Informaçoes>
+                                <h4>Sequencia atual: {habito.currentSequence}</h4>
+                                <h4>Seu recorde: {habito.highestSequence}</h4>
+                            </Informaçoes>
+                        </Dados>
+                        <Check
+                            feito={habito.done}
+                            onClick={() => clicarHabito(habito.done,habito.id)}>
+                                <img src={ImagemCheck} className="imagemCheck" />
+                        </Check>
+                    </Habito>)}
+                </>
             </Corpo>
             <Menu porcentagem={porcentagem} />
         </>
@@ -95,15 +97,13 @@ const Corpo = styled.div`
     overflow-y: scroll;
 `
 const DiaHoje = styled.div`
-    display: flex;
-    justify-content: space-around;
+    margin-left: 17px;
+    margin-bottom: 2px;
 
     h1 {
         color: #126BA5;
         font-size: 22.98px;
-        margin-left: 17px;
         margin-top: 28px;
-        margin-bottom: 28px;
     }
 `
 const Subtitulo = styled.div`
@@ -160,4 +160,11 @@ const Check = styled.div`
     align-items: center;
 
     background: ${props => props.feito ? '#8FC549' : '#EBEBEB'};
+`
+const Texto = styled.div`
+        color: #666666;
+        font-size: 12.98px;
+        font-weight: 400;
+        margin-left: 15px;
+        margin-bottom: 2px;
 `
