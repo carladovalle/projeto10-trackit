@@ -77,6 +77,10 @@ const Tela = styled.div`
     flex-direction: column;
     background-color: #F2F2F2;
     height: 667px;
+
+    a:link {
+       text-decoration: none;
+    }
 `;
 
 const Img = styled.img`
@@ -115,11 +119,12 @@ const Button = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 `
 const IrParaCadastro = styled.div`
     font-size: 13.98px;
     color: #52B6FF;
-    text-decoration-line: underline;
+    text-decoration-color: #52B6FF;
     margin-left: 74px;
     margin-top: 25px;
 `

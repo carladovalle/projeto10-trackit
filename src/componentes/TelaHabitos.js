@@ -228,6 +228,7 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
     margin-top: 21px;
+    cursor: pointer;
 
     h2 {
         color: #FFFFFF;
@@ -332,6 +333,7 @@ const ButtonSalvar = styled.button`
     align-items: center;
     margin-left: 15px;
     margin-top: 29px;
+    cursor: pointer;
 
     h4 {
         color: #FFFFFF;

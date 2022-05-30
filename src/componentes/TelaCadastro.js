@@ -68,6 +68,10 @@ const Tela = styled.div`
     flex-direction: column;
     background-color: #F2F2F2;
     height: 667px;
+
+    a:link {
+       text-decoration: none;
+    }
 `;
 
 const Img = styled.img`
@@ -103,6 +107,7 @@ const Button = styled.button`
     font-size: 20.98px;
     font-weight: 400;
     color: #FFFFFF;
+    cursor: pointer;
 `
 const IrParaCadastro = styled.div`
     font-size: 13.98px;
