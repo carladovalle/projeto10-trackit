@@ -3,6 +3,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import TokenContext from "../contexts/TokenContext";
+import PorcentagemContext from "../contexts/PorcentagemContext";
+
+import ImagemCheck from "./../assets/imagens/check.svg";
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
@@ -12,6 +15,43 @@ import Menu from './layouts/Menu'
 
 
 export default function TelaHoje() {
+
+    const { token } = useContext(TokenContext);
+    const { setPorcentagemLocal, porcentagem } = useContext(PorcentagemContext);
+
+    const [habitosHoje, setHabitosHoje] = useState([]);
+
+    useEffect(() => renderizarHabitosHoje());
+
+    function renderizarHabitosHoje() {
+
+        const config = { 
+            headers: {Authorization: `Bearer ${token}`}
+        }
+    
+        const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today',config)
+
+        promise.then(resposta => {
+            setHabitosHoje(resposta.data);
+            setPorcentagemLocal(((resposta.data.filter(habito => habito.done).length)/(resposta.data.length))*100);
+        })
+    }
+
+    function clicarHabito(done,id) {
+
+        const config = { 
+            headers: {Authorization: `Bearer ${token}`}
+        }
+
+        !done 
+            ?
+                axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`,{},config)
+                .then(() => {renderizarHabitosHoje()})
+            :
+                axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`,{},config)
+                .then(() => {renderizarHabitosHoje()})
+            }
+
     return (
         <>
             <Topo />
@@ -22,20 +62,27 @@ export default function TelaHoje() {
                 <Subtitulo>
                     <h2>Nenhum hábito concluído ainda</h2>
                 </Subtitulo>
-                <Habito>
+                {habitosHoje.map(habito =>
+                <Habito
+                    key={habito.id}
+                    feito={habito.done}
+                    recorde={habito.highestSequence === habito.currentSequence && habito.done && habito.highestSequence !== 0}
+                    >
                     <Dados>
-                        <h3>Nome do hábito</h3>
+                        <h3>{habito.name}</h3>
                         <Informaçoes>
-                            <h4>Sequencia atual: 3 dias</h4>
-                            <h4>Seu recorde: 5 dias</h4>
+                            <h4>Sequencia atual: {habito.currentSequence}</h4>
+                            <h4>Seu recorde: {habito.highestSequence}</h4>
                         </Informaçoes>
                     </Dados>
-                    <Check>
-                        
+                    <Check
+                        feito={habito.done}
+                        onClick={() => clicarHabito(habito.done,habito.id)}>
+                            <img src={ImagemCheck} className="imagemCheck" />
                     </Check>
-                </Habito>
+                </Habito>)}
             </Corpo>
-            <Menu />
+            <Menu porcentagem={porcentagem} />
         </>
     )
 }
@@ -45,6 +92,7 @@ const Corpo = styled.div`
     height: 527px;
     background-color: #F2F2F2;
     margin-top: 70px;
+    overflow-y: scroll;
 `
 const DiaHoje = styled.div`
     display: flex;
@@ -75,6 +123,7 @@ const Habito = styled.div`
     margin-left: 18px;
     margin-bottom: 10px;
     display: flex;
+    justify-content: space-around;
 
 `
 const Dados = styled.div`
@@ -106,4 +155,9 @@ const Check = styled.div`
     border-radius: 5px;
     margin-left: 78px;
     margin-top: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: ${props => props.feito ? '#8FC549' : '#EBEBEB'};
 `

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ThreeDots } from  'react-loader-spinner';
 
 import TokenContext from "../contexts/TokenContext";
+import PorcentagemContext from "../contexts/PorcentagemContext";
 
 import ImagemDelete from "./../assets/imagens/delete.svg";
 
@@ -12,7 +13,9 @@ import Menu from './layouts/Menu'
 
 export default function TelaHabitos() {
 
+    const { setPorcentagemLocal } = useContext(PorcentagemContext)
     const { token } = useContext(TokenContext);
+    const { porcentagem } = useContext(PorcentagemContext);
 
     const [habito, setHabito] = useState("");
     const [dias, setDias] = useState([
@@ -107,6 +110,7 @@ export default function TelaHabitos() {
                 limparDias();
                 setBotao(true);
                 setInput(true);
+                setPorcentagemLocal(0)
             })
     }
 
@@ -120,7 +124,7 @@ export default function TelaHabitos() {
 
         if(resposta) {
             axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config)
-            .then(() => {renderizarHabitos()})
+            .then(() => {renderizarHabitos();setPorcentagemLocal(0)})
         }
     }
 
@@ -191,7 +195,7 @@ export default function TelaHabitos() {
                     }
                 </Desenvolvimento>
             </Corpo>
-            <Menu />
+            <Menu porcentagem={porcentagem} />
         </>
     )
 }

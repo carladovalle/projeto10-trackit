@@ -25,7 +25,7 @@ export default function TelaLogin() {
     }
 
     function sucessoLogin(resposta) {
-        navigate("/habitos")
+        navigate("/hoje")
         setImagemUsuarioLocal(resposta.data.image)
     }
 
